@@ -1,6 +1,5 @@
-# Ignore all files with the .DIS extension
 DISCONTINUED/
 
-# Ignore the two folders in the directory
 AutoCAD_Macros/
 fiber_autocad_optimizer/
+
