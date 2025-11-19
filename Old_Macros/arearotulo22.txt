@@ -1,0 +1,31 @@
+Orden: AREAR
+arearotulo22.lsp
+Instrucciones de instalación en la sección AutoCAD de Las Quimbambas.
+
+Versión 2.2: Marzo, 2001.
+---------------------------
+Más órdenes como ésta en Las Quimbambas:
+http://humano.ya.com/quimbambas
+
+* Qué hace:
+Rotula el área de uno o varios contornos cerrados, descartando islas internas.
+
+* Opciones posibles:
+- Altura de texto
+- Prefijo: Inserta un rotulo antes del número. Por ejemplo "COCINA"
+- Sufijo: Texto que se rotulará a continuación del valor de la superficie, por ejemplo "m2". Este valor puede estar vacío.
+- Número de decimales y redondeo. Precisión y redondeo. Un valor 0 en redondeo quiere decir sin redondeo.
+
+* Valores por defecto:
+- La altura del texto en caso de que no indiquemos un valor particular será la vigente del texto actual.
+- El redondeo es de 0.05.
+- Partimos con los decimales que establezcan las unidades actuales del dibujo.
+
+* Interacciones con otras órdenes:
+Todos los valores de las opciones son comunes a las órdenes sumarea y numera, es decir, si en una de ellas variamos, por ejemplo, el redondeo, también tendrá efecto sobre la próxima orden arear.
+
+
+Cualquier duda o sugerencia sobre esta u otra órdenes de Las Quimbambas:
+
+Julio Pablo.
+estuvoaqui@altavista.net

@@ -1,0 +1,36 @@
+Orden: NUMERA
+numera21.lsp
+Instrucciones de instalación en la sección AutoCAD de Las Quimbambas.
+
+Versión 2.1: Marzo, 2001.
+---------------------------
+Más órdenes como ésta en Las Quimbambas:
+http://humano.ya.com/quimbambas
+
+* Qué hace:
+Rotula automáticamente números consecutivos en el dibujo.
+
+* Opciones posibles:
+- Altura de texto
+- Prefijo y sufijo. Inserta un rotulo antes y/o después del número. Por ejemplo "trastero 3". "trastero 4", etc
+- Número de decimales y redondeo. Precisión y redondeo. Un valor 0 en redondeo quiere decir sin redondeo.
+- Origen Número en el que se inicia la numeración (inclusive).
+- Incremento. Valor en que se aumentará el último número rotulado.
+
+* Flexibilidad:
+Todas estas opciones se pueden variar durante la ejecución de la orden, es decir, podemos empezar numerando de 1 en 1 y sin prefijo, y al llegar a 10, seguir con el prefijo "Num." por ejemplo. Todo ello sin salir de la orden.
+
+* Valores por defecto:
+- Si no variamos las opciones, la orden asume un origen 1 y un incremento de 1
+- La altura del texto en caso de que no indiquemos un valor particular será la vigente del texto actual.
+- El redondeo es de 0.05.
+- Inicialmente, el número de decimales será el definido en las unidades del dibujo actual (ddunits).
+
+* Interacciones con otras órdenes:
+Todos los valores de las opciones son comunes a las órdenes arear y sumarea, es decir, si en una de ellas variamos, por ejemplo, el redondeo, también tendrá efecto sobre la próxima orden numera.
+
+
+Cualquier duda o sugerencia sobre esta u otra órdenes de Las Quimbambas:
+
+Julio Pablo.
+estuvoaqui@altavista.net

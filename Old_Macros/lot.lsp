@@ -1,0 +1,13 @@
+(defun c:lot () 
+(setvar "cmdecho" 0) 
+(graphscr) 
+(setq ln 0) 
+(setq ln (getint "\nEnter LOT Number: ")) 
+(while 
+(princ "\nLot Number text is Left Botton justification: ") 
+(setq pt (getpoint "\nPick center of Lot: ")) 
+(command "text" "M" pt "90" ln) 
+(setq ln (1+ ln)) 
+(princ "\nLot Number: ")(princ ln) 
+) 
+) 

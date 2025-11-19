@@ -1,0 +1,20 @@
+;PROGRAMA DESARROLLADO POR LUIS ALEJANDRO VERGEL CASANOVA
+;DESARROLLADO PARA LA FACILITACION DE LA ALIMENTACION DE EDIFICIOS
+;EL PROGRAMA PERMITE TRAZAR  n  DE LINEAS DESDE UN PUNTO DE ORIGEN
+;HASTA EL QUE USUARIO DECIDA CANCELAR 
+;TODOS LOS TRAZOS CAERAN EN LA CAPA CAT_ALIMENTA DE FORMA AUTONOMA
+
+(defun c:ml()
+
+  (setq p1 (getpoint "\nIndica punto de origen:"))
+(while
+  (setvar "clayer" "CAT_ALIMENTA")
+  (setq p2 (getpoint "\nIndica un lugar:" p1))
+  (command "_line" p1 p2 "")
+ 
+)
+  (princ)
+  
+  )
+
+

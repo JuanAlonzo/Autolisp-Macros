@@ -1,0 +1,43 @@
+(defun c:ww (/ a b ctr curcmdecho curosmode curnomutt)
+  (defun *error* (errmsg)
+    (if
+      (not
+	(wcmatch errmsg
+		 "Function cancelled,quit / exit abort,console break,end"
+		 )
+	)
+      (princ (strcat "\nError: " errmsg))
+      )
+    (setvar 'cmdecho curcmdecho)
+    (setvar 'nomutt curnomutt)
+    (setvar 'osmode curosmode)
+    (vla-endundomark adoc)
+    (princ)
+    )
+  (vla-startundomark
+    (setq adoc (vla-get-activedocument (vlax-get-acad-object)))
+    )
+  (setq curosmode (getvar 'osmode))
+  (setvar 'osmode 553)
+  (setq curnomutt (getvar 'nomutt)
+	curcmdecho (getvar 'cmdecho)
+	a	   (getpoint "\nSelect Break Point: ")
+	b	   (setq ss (ssget "_C"
+				   (polar a (* 1.25 pi) 0.01)
+				   (polar a (* 0.25 pi) 0.01)
+				   '((0 . "LWPOLYLINE,LINE,ARC"))))
+	 ;(ssget "_c" a a)
+	 ctr	   0
+	 )
+  (setvar 'cmdecho 0)
+  (setvar 'nomutt 1)
+  (repeat (sslength b)
+    (command "._break" (ssname b ctr) "_none" a "_none" "@")
+    (setq ctr (1+ ctr))
+    )
+  (setvar 'osmode curosmode)
+  (setvar 'nomutt curnomutt)
+  (setvar 'cmdecho curcmdecho)
+  (vla-endundomark adoc)
+  (*error* "end")
+)
