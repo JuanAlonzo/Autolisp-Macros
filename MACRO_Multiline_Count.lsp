@@ -8,6 +8,8 @@
 ; 	Incluye filtro de capas visibles/no congeladas
 ;	Coloca el resultado en un nuevo texto en el punto central
 ;	Coloca textos adicionales con las sumas de R, C y D debajo del total
+;   Crea la capa CAT_ALIMENTA si no existe
+;   Textos especiales TSC, TEC, T.E.C., T.S.C. cuentan como 1R
 ;
 
 (defun capa-visible-p (nombre-capa / layer) 
@@ -40,9 +42,9 @@
 )
 
 (defun c:MCOUNT (/ ss p_centro oper text-found i ent entData p1 AAA AREAE nombre-capa 
-                 suma_r suma_c suma_d suma_t suma_total ptEtiqueta textEnt ptTextoR 
-                 ptTextoC ptTextoD ptTextoT textos-procesados textos-omitidos 
-                 valor_numerico offset-y
+                 suma_r suma_c suma_d suma_total ptEtiqueta textEnt ptTextoR ptTextoC 
+                 ptTextoD textos-procesados textos-omitidos valor_numerico offset-y 
+                 texto-upper
                 ) 
 
   (setq ss (ssget '((0 . "TEXT,MTEXT"))))
@@ -64,7 +66,6 @@
       (setq suma_r 0)
       (setq suma_c 0)
       (setq suma_d 0)
-      (setq suma_t 0)
 
       (while (< i (sslength ss)) 
         (setq ent (ssname ss i))
@@ -82,21 +83,33 @@
 
             ; Extraer valor numérico del texto
             (setq valor_numerico (atoi AAA))
+            (setq texto-upper (strcase AAA))
 
-            (if (wcmatch (strcase AAA) "*R*") 
-              (setq suma_r (+ suma_r AREAE))
-              (if (wcmatch (strcase AAA) "*C*") 
-                (setq suma_c (+ suma_c AREAE))
-                (if (wcmatch (strcase AAA) "*D*") 
-                  (progn 
-                    ; Lógica especial para D: si >9 cuenta como 1, si <=9 cuenta el número
-                    (if (> valor_numerico 9) 
-                      (setq suma_d (+ suma_d 1))
-                      (setq suma_d (+ suma_d AREAE))
+            ; Verificar textos especiales TSC, TEC, T.E.C., T.S.C. - cuentan como 1R
+            (if 
+              (or (= texto-upper "TSC") 
+                  (= texto-upper "TEC")
+                  (= texto-upper "T.E.C.")
+                  (= texto-upper "T.S.C.")
+              )
+              (setq suma_r (+ suma_r 1))
+              ; Si no es texto especial, aplicar lógica normal
+              (if (wcmatch texto-upper "*R*") 
+                (setq suma_r (+ suma_r AREAE))
+                (if (wcmatch texto-upper "*C*") 
+                  (setq suma_c (+ suma_c AREAE))
+                  (if (wcmatch texto-upper "*D*") 
+                    (progn 
+                      ; Lógica especial para D: si >9 cuenta como 1, si <=9 cuenta el número
+                      (if (> valor_numerico 9) 
+                        (setq suma_d (+ suma_d 1))
+                        (setq suma_d (+ suma_d AREAE))
+                      )
                     )
-                  )
-                  (if (wcmatch (strcase AAA) "*T*") 
-                    (setq suma_t (+ suma_t AREAE))
+                    ; Si contiene T (pero no es texto especial), sumarlo a R
+                    (if (wcmatch texto-upper "*T*") 
+                      (setq suma_r (+ suma_r AREAE))
+                    )
                   )
                 )
               )
@@ -115,7 +128,7 @@
 
       (if text-found 
         (progn 
-          (setq suma_total (+ suma_r suma_c suma_d suma_t))
+          (setq suma_total (+ suma_r suma_c suma_d))
 
           (setq ptEtiqueta p_centro)
           (setq offset-y 0) ; Variable para controlar el desplazamiento vertical
@@ -193,28 +206,6 @@
                       (cons 1 (strcat "Total D: " (rtos (fix suma_d) 2 0)))
                       (cons 50 0.0)
                       (cons 62 4) ; Color cyan
-                )
-              )
-              (setq offset-y (+ offset-y 2))
-            )
-          )
-
-          ;; Agregar texto con la suma de T solo si es mayor que 0
-          (if (> suma_t 0) 
-            (progn 
-              (setq ptTextoT (list (car ptEtiqueta) 
-                                   (- (cadr ptEtiqueta) offset-y)
-                                   0
-                             )
-              )
-              (entmakex 
-                (list (cons 0 "TEXT") 
-                      (cons 8 "CAT_ALIMENTA") ; Capa
-                      (cons 10 ptTextoT)
-                      (cons 40 1)
-                      (cons 1 (strcat "Total T: " (rtos (fix suma_t) 2 0)))
-                      (cons 50 0.0)
-                      (cons 62 5) ; Color azul
                 )
               )
               (setq offset-y (+ offset-y 2))

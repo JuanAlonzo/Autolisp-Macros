@@ -14,7 +14,7 @@ Algunas de las macros contienen mejoras implementadas, usando de fuente la macro
 5. [MACRO_BlockRename](#macro_blockrename)
 6. [MACRO_BreakPoint](#macro_breakpoint)
 7. [MACRO_CountText](#macro_counttext)
-8. [MACRO_CreateLayer](#macro_createlayer)
+8. [MACRO_CrearCapaNumeracion](#macro_crearcapanumeracion)
 9. [MACRO_DistanceAcumulative](#macro_distanceacumulative)
 10. [MACRO_Export_xls](#macro_export_xls)
 11. [MACRO_InsideSelector](#macro_insideselector)
@@ -247,7 +247,7 @@ La macro suma: Total=12, Residencial=5, Comercial=5, Otros=2. A diferencia del S
 
 ---
 
-## MACRO_CreateLayer
+## MACRO_CrearCapaNumeracion
 
 **Comando:** `CAPA`
 
