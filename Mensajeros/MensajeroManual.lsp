@@ -10,10 +10,10 @@
 
 
 
-(defun c:SembrarMensajero (/ *error* doc modelSpace ss i lineaObj p1 p2 midPt ang 
-                           distReal distFinal gap bloqueObj props prop nombreProp 
-                           minPt maxPt centerPt propsAdmitidas
-                          ) 
+(defun c:SMB (/ *error* doc modelSpace ss i lineaObj p1 p2 midPt ang distReal 
+              distFinal gap bloqueObj props prop nombreProp minPt maxPt centerPt 
+              propsAdmitidas ultima-entidad ss-nuevos nueva-entidad
+             ) 
   (vl-load-com)
 
   ;; --- CONFIGURACION ---
@@ -38,6 +38,7 @@
   (if ss 
     (progn 
       (vla-StartUndoMark doc)
+      (setq ultima-entidad (entlast))
       (setq i 0)
 
       (repeat (sslength ss) 
@@ -114,8 +115,32 @@
         (setq i (1+ i))
       )
 
+      (setq ss-nuevos (ssadd))
+
+      (if ultima-entidad 
+        (setq nueva-entidad (entnext ultima-entidad))
+        (setq nueva-entidad (entnext))
+      )
+
+      (while nueva-entidad 
+        (ssadd nueva-entidad ss-nuevos)
+        (setq nueva-entidad (entnext nueva-entidad))
+      )
+
       (vla-EndUndoMark doc)
-      (princ (strcat "\nProceso finalizado. " (itoa i) " cables colocados."))
+
+      (if (> (sslength ss-nuevos) 0) 
+        (progn 
+          (sssetfirst nil ss-nuevos)
+          (princ 
+            (strcat "\nSe seleccionaron " 
+                    (itoa (sslength ss-nuevos))
+                    " mensajero(s) nuevo(s)."
+            )
+          )
+        )
+        (princ "\nNo se agregaron nuevos mensajeros.")
+      )
     )
     (princ "\nNo seleccionó ninguna linea.")
   )

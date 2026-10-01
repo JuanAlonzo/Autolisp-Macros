@@ -27,9 +27,9 @@
       (princ "\nUsando capa existente: CAT_DIST POSTE")
     )
     (progn 
-      (Create_Layer "dist" 3)
-      (setq target_layer "dist")
-      (princ "\nCapa CAT_DIST POSTE no encontrada. Usando capa: dist")
+      (Create_Layer "CAT_DIST POSTE" 3)
+      (setq target_layer "CAT_DIST POSTE")
+      (princ "\nCapa CAT_DIST POSTE no encontrada. Creando capa: CAT_DIST POSTE")
     )
   )
 
