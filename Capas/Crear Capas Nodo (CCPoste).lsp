@@ -13,8 +13,8 @@
     (progn 
       ;; Definición de colores estándar (modificar según la norma interna):
       ;; 1 = Rojo | 2 = Amarillo | 3 = Verde | 4 = Cian | 6 = Magenta | 7 = Blanco
-      (setq col_exist 7)
-      (setq col_proy 2)
+      (setq col_exist 2)
+      (setq col_proy 4)
       (setq col_apoyo 1)
 
       ;; Construcción de los nombres exactos de capa según el estándar
